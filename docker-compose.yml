@@ -1,0 +1,45 @@
+version: '3.5'
+services:
+  db:
+    image: postgres:11.2
+    container_name: postgres_11_2
+    restart: always
+    env_file:
+      - ./.env
+    volumes:
+      - ./shared_data/db_data:/var/lib/postgresql/data
+    networks:
+      - service_network
+  orders_api:
+    container_name: orders_api
+    build: ./orders/
+    image: orders_api
+    volumes:
+      - ./orders/:/usr/src/app
+      - ./orders/node_modules:/usr/src/app/node_modules
+    ports:
+      - 3000:3000
+      - 9229:9229
+    depends_on:
+      - db
+      - payments_api
+    networks:
+      - service_network
+  payments_api:
+    container_name: payments_api
+    build: ./payments/
+    image: payments_api
+    env_file:
+      - ./.env
+    volumes:
+      - ./payments/:/usr/src/app
+      - ./payments/node_modules:/usr/src/app/node_modules
+    depends_on:
+      - db
+    networks:
+      - service_network
+
+networks:
+  service_network:
+    driver: bridge
+    name: service_network
