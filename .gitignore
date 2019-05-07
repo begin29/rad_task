@@ -2,3 +2,4 @@ orders/node_modules/
 payments/node_modules/
 shared_data/**
 !shared_data/.gitkeep
+.env
