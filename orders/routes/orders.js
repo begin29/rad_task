@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+var ordersController = require('../controllers/ordersController')
+
+router.get('/', ordersController.index);
 
 module.exports = router;
