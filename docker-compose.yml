@@ -14,6 +14,8 @@ services:
     container_name: orders_api
     build: ./orders/
     image: orders_api
+    env_file:
+      - ./.env
     volumes:
       - ./orders/:/usr/src/app
       - ./orders/node_modules:/usr/src/app/node_modules
