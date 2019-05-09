@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon --exec npm start"
+    "start": "tsc && node ./bin/www",
+    "start-inspect": "tsc && node --inspect=0.0.0.0 ./bin/www",
+    "dev": "nodemon --exec npm run start-inspect",
+    "tsc": "tsc"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,7 +15,8 @@
     "morgan": "~1.9.1",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^5.8.5"
+    "sequelize": "^5.8.5",
+    "typescript": "^3.4.5"
   },
   "devDependencies": {
     "nodemon": "^1.19.0",
