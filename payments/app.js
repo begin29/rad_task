@@ -15,6 +15,5 @@ app.use(cookieParser());
 
 app.use(authChecker);
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 module.exports = app;
