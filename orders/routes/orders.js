@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-var ordersController = require('../controllers/ordersController')
+const ordersController = require('../controllers/ordersController')
 
 router.get('/', ordersController.index);
+router.post('/', ordersController.create);
 
 module.exports = router;
