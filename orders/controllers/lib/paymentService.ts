@@ -1,5 +1,6 @@
 const axios = require('axios');
-const models = require('../models');
+const models = require('../../../models');
+const { PaymentProcessError, OrderUpdateError } = require('../../helpers/errors');
 
 export class PaymentService {
   readonly orderId: number;
@@ -12,8 +13,7 @@ export class PaymentService {
   }
 
   pay(token){
-    axios.post( this.paymentUrl, {
-      //expect to do something with sum within payment service
+    return axios.post( this.paymentUrl, {
       sum: this.orderSum
     },
     {
@@ -29,18 +29,24 @@ export class PaymentService {
           returning: true
         }
       ).then( ([ updatedCount, [updatedOrder] ]) => {
-        setTimeout(() => this.deliverOrCancelOrder(updatedOrder), 3000);
+        if (updatedCount > 0){
+          setTimeout(() => {
+            this.deliverOrCancelOrder(updatedOrder).catch(err => {
+              throw err;
+            })
+          }, 3000);
+        }
       }).catch( err => {
-        console.log(err.message);
+        throw new OrderUpdateError(err);
       });
     }).catch( err => {
-      console.log(err.message);
+      throw new PaymentProcessError(err);
     });
   }
 
   private deliverOrCancelOrder(order){
     let nextOrderStatus = order.status == 'confirmed' ? 'delivered' : 'canceled';
-    models.Order.update(
+    return models.Order.update(
       { status: nextOrderStatus },
       {
         where: { id: order.id },
@@ -49,7 +55,7 @@ export class PaymentService {
     ).then( ([ updatedCount, [updatedOrder] ]) => {
       //can do something more with updated order
     }).catch( err => {
-      console.log(err.message)
+      throw new OrderUpdateError(err);
     });
   }
 }
