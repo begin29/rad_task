@@ -13,7 +13,7 @@ services:
   orders_api:
     container_name: orders_api
     build: ./orders/
-    image: orders_api
+    image: begin29/orders_api_task
     env_file:
       - ./.env
     volumes:
@@ -30,7 +30,7 @@ services:
   payments_api:
     container_name: payments_api
     build: ./payments/
-    image: payments_api
+    image: begin29/payments_api_task
     expose:
       - "3000"
     env_file:
