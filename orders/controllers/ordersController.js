@@ -1,5 +1,5 @@
 var models = require('../models');
-var paymentService = require("../build/paymentService")["PaymentService"];
+var paymentService = require("../build/controllers/lib/paymentService")["PaymentService"];
 
 exports.index = function(req, res) {
   models.Order.findAll({
