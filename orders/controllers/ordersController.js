@@ -10,15 +10,15 @@ exports.index = function(req, res) {
 
 exports.create = function(req, res) {
   if (!req.param('items')){
-    return res.status(500).json( {error: 'Can`t provide payment for 0 items'} )
+    return res.json( {status: false, error: 'Can`t provide payment for 0 items'} )
   }
 
   const negativePriceError = negativePriceChecker(req.param('items'));
-  if (negativePriceError){ return res.status(500).json({ error: negativePriceError }); }
+  if (negativePriceError){ return res.json({status: false, error: negativePriceError }); }
 
   const itemsSum = sumFromItems( req.param('items') );
   if (itemsSum == undefined || itemsSum == 0 ){
-    return res.status(500).json({error: 'Order`s price should be bigger than 0'})
+    return res.json({status: false, error: 'Order`s price should be positive value'})
   };
 
   models.Order.create({
