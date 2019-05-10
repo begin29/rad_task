@@ -25,10 +25,13 @@ exports.create = function(req, res) {
     status: 'created',
     sum: itemsSum
   }).then( order => {
-    res.json(order);
-    new paymentService(order.id, order.sum).pay(req.header('x-access-token'))
+    try{
+      new paymentService(order.id, order.sum).pay(req.header('x-access-token'));
+      res.json(order);
+    } catch(err) {
+      return res.status(500).json({ error: err.message });
+    }
   }).catch(err => {
-    console.log(err.message);
     res.status(500).json({error: err.message});
   })
 };
