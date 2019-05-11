@@ -12,13 +12,9 @@ services:
       - service_network
   orders_api:
     container_name: orders_api
-    build: ./orders/
     image: begin29/orders_api_task
     env_file:
       - ./.env
-    volumes:
-      - ./orders/:/usr/src/app
-      - ./orders/node_modules:/usr/src/app/node_modules
     ports:
       - 3000:3000
       - 9229:9229
@@ -29,15 +25,11 @@ services:
       - service_network
   payments_api:
     container_name: payments_api
-    build: ./payments/
     image: begin29/payments_api_task
     expose:
       - "3000"
     env_file:
       - ./.env
-    volumes:
-      - ./payments/:/usr/src/app
-      - ./payments/node_modules:/usr/src/app/node_modules
     depends_on:
       - db
     networks:

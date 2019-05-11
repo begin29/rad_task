@@ -1,6 +1,20 @@
 version: '3.5'
 services:
   orders_api:
+    build: ./orders/
     command: npm run dev
+    volumes:
+      - ./orders/test:/usr/src/app/test
+      - ./orders/routes:/usr/src/app/routes
+      - ./orders/migrations:/usr/src/app/migrations
+      - ./orders/models:/usr/src/app/models
+      - ./orders/helpers:/usr/src/app/helpers
   payments_api:
+    build: ./payments/
+    volumes:
+      - ./payments/test:/usr/src/app/test
+      - ./payments/routes:/usr/src/app/routes
+      - ./payments/migrations:/usr/src/app/migrations
+      - ./payments/models:/usr/src/app/models
+      - ./payments/helpers:/usr/src/app/helpers
     command: npm run dev
