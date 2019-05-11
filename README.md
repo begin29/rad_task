@@ -31,7 +31,7 @@ migrate database:
 $ docker exec -it orders_api ./node_modules/sequelize-cli/lib/sequelize db:migrate
 ```
 
-Development mode, reloads server after change any files:
+Development mode, reloads server after change files within models, controllers, tests, helpers:
 ```
 docker-compose -f docker-compose.yml -f docker-compose-dev.yml up`
 ```
